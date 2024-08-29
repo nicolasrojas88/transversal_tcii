@@ -15,6 +15,7 @@ int leeCad(elem cadena, int tam);
 void InsertaElem(tpn *cab, tpn x);
 void CargaConj(tpn* cab, int *x);
 tpn Union(tpn A, tpn B);
+tpn ConjVacio();
 tpn Interseccion(tpn A, tpn B);
 void MuestraConj(tpn A);
 
