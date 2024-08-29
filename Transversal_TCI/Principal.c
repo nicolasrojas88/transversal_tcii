@@ -8,6 +8,7 @@ int main (int argc, char *argv[]) {
 	c=ConjVacio();
 	a=ConjVacio();
 	//agregue comentario
+	//Holis soy viki
 	printf("Vamos a cargar un Conjunto\n");
 	CargaConj(&c,&tam);
 	printf("Vamos a cargar otro Conjunto\n");
