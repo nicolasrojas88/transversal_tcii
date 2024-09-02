@@ -1,74 +1,100 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Transicion.h"
 #include "Conjunto.h"
 
-Cam CreaCampo(){
-	Cam ca;
-	int tp,tl;
-	//Cargar El Estado de Partida, con el TAD Conjunto
+Cam CreaCampo() {
+	Cam ca = (Cam)malloc(sizeof(t_camp));
+	if (ca == NULL) {
+		printf("Error de memoria\n");
+		exit(1);
+	}
+	
+	int tp, tl;
+	
+	// Inicializar cadenas
+	memset(ca->simb, '\0', sizeof(ca->simb));
+	
+	// Cargar el conjunto de partida
 	printf("====Conjunto Partida====\n");
-	CargaConj(&(ca->part),&tp);
-	fflush(stdin);
+	CargaConj(&(ca->part), &tp);
 	
-	//Carga El Simbolo
-	printf("\nIngrese Simbolo del Alfabeto: ");
-	leeCad(ca->simb,5);
-	fflush(stdin);
-	//Carga El Estado de LLegada, con el TAD Conjunto
-	printf("====Conjunto LLegada====\n");
-	CargaConj(&(ca->lleg),&tl);
-	fflush(stdin);
+	// Cargar el símbolo del alfabeto
+	printf("\nIngrese Símbolo del Alfabeto: ");
+	if (!leeCad(ca->simb, sizeof(ca->simb))) {
+		printf("Error al leer el símbolo del alfabeto.\n");
+		exit(1);
+	}
 	
+	// Cargar el conjunto de llegada
+	printf("====Conjunto Llegada====\n");
+	CargaConj(&(ca->lleg), &tl);
 	
 	return ca;
 }
-	trans CreaTrans()
-	{
-		trans p;
-		p= (t_delta*) malloc (sizeof (t_delta));
-		p->datos=CreaCampo();
-		p->sig= NULL;
-		
-		return p;
+
+// Función para crear una nueva transición
+trans CreaTrans() {
+	trans p = (trans)malloc(sizeof(t_delta));
+	if (p == NULL) {
+		printf("Error de memoria al crear transición.\n");
+		exit(1);
+	}
+	p->datos = CreaCampo();
+	p->sig = NULL;
+	return p;
+}
+
+// Función para inicializar una lista de transiciones
+trans IniciaLista() {
+	return NULL;
+}
+
+// Función para cargar una nueva transición en la lista
+void CargaTrans(trans *cab, trans nw) {
+	if (nw == NULL) {
+		printf("Error: Nueva transición es NULL.\n");
+		return;
 	}
 	
-	trans IniciaLista()
-	{
-		return NULL;
-	}
+	nw->sig = NULL;
 	
-	void CargaTrans(trans *cab, trans nw)
-	{
-		trans ult;
-		
-		if (*cab != NULL)
-		{
-			ult= *cab;
-			while (ult-> sig != NULL)
-				ult= ult->sig;
-			ult->sig= nw;
+	if (*cab == NULL) {
+		*cab = nw;
+		printf("Transición añadida como cabeza.\n");
+	} else {
+		trans ult = *cab;
+		while (ult->sig != NULL) {
+			ult = ult->sig;
 		}
-		else
-			*cab= nw;
-		
+		ult->sig = nw;
+		printf("Transición añadida al final.\n");
 	}
 	
-	void MuestraTrans(trans cab)
-	{
-		if(cab!=NULL){
-			printf("QP: ");
-			while(cab->datos->part!=NULL ){
-				MuestraConj(cab->datos->part);
-				
-			}
-			printf("\n QLL: ");
-			while(cab->datos->lleg!=NULL)
-				MuestraConj(cab->datos->lleg);
-			
-			printf("\n SING={%s}",cab->datos->simb );
-		}else
-		   printf("ERROR :P");
-		
+	// Verificación del estado actual de la lista
+	MuestraTrans(*cab);
+}
+
+// Función para mostrar todas las transiciones
+void MuestraTrans(trans cab) {
+	if (cab == NULL) {
+		printf("No hay transiciones para mostrar.\n");
+		return;
 	}
 	
+	while (cab != NULL) {
+		if (cab->datos == NULL) {
+			printf("Error: Transición con datos NULL.\n");
+			return;
+		}
+		
+		printf("QP: ");
+		MuestraConj(cab->datos->part);
+		printf("\nQLL: ");
+		MuestraConj(cab->datos->lleg);
+		printf("\nSING={%s}\n", cab->datos->simb);
+		
+		cab = cab->sig;
+	}
+}

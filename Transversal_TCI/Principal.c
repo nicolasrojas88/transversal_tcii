@@ -1,25 +1,28 @@
 #include<stdio.h>
 #include "Conjunto.h"
 #include "Transicion.h"
+#include "Automata.h"
 
 int main (int argc, char *argv[]) {
-	tpn c,a,I;
-	int tam,tam1;
-	c=ConjVacio();
-	a=ConjVacio();
-	//agregue comentario
-	//Holis soy viki
-	printf("Vamos a cargar un Conjunto\n");
-	CargaConj(&c,&tam);
-	printf("Vamos a cargar otro Conjunto\n");
-	CargaConj(&a,&tam1);
-	printf("Vamos a hacer la Interseccion ");
-	//I= Interseccion(c,a);
-	I=Union(a,c);
-	MuestraConj(I);
-	/*trans cab, nue;
-	nue= CreaTrans();
-	CargaTrans(&cab , nue );
-	MuestraTrans(cab); */
+	/*trans cab = IniciaLista(); // Inicializar correctamente la lista
+	trans nue = CreaTrans();
+	
+	CargaTrans(&cab, nue);
+	MuestraTrans(cab);*/
+	taf automataAFND, automataAFD;
+	
+	// Cargar el autómata AFND
+	automataAFND = CargarAFND();
+	
+	printf("AFND cargado:\n");
+	MuestraAF(automataAFND);
+	
+	// Convertir el AFND a AFD
+	automataAFD = ConvertirAFNDaAFD(automataAFND);
+	
+	// Mostrar el AFD convertido
+	printf("AFD convertido:\n");
+	MuestraAF(automataAFD);
+	
 	return 0;
 }

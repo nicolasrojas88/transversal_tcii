@@ -2,9 +2,11 @@
 #define CONJUNTO_H
 #include <string.h>
 #include <stdio.h>
+#define MAX_ELEM_SIZE 100
 
-typedef char elem[5];
-typedef struct nodo{
+typedef char elem[MAX_ELEM_SIZE];
+
+typedef struct nodo {
 	elem e;
 	struct nodo* sig;
 } t_nodo;
@@ -18,5 +20,8 @@ tpn Union(tpn A, tpn B);
 tpn ConjVacio();
 tpn Interseccion(tpn A, tpn B);
 void MuestraConj(tpn A);
+tpn CreaNodo(elem x);
+int Compara(elem x, tpn A);
+tpn Diferencia(tpn A, tpn B);
 
 #endif

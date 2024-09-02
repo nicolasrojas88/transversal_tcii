@@ -2,14 +2,14 @@
 #define TRANSICION_H
 #include "Conjunto.h"
 
-typedef struct campos{
+typedef struct campos {
 	tpn part;
 	tpn lleg;
 	elem simb;
 } t_camp;
 typedef t_camp* Cam;
 
-typedef struct delta{
+typedef struct delta {
 	Cam datos;
 	struct delta* sig;
 } t_delta;
